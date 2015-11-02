@@ -1,35 +1,31 @@
 # Collaborative Data Analysis Project 
 
 
-# Installing packages
-install.packages('xlsx')
+# Installing and loading packages
 install.packages('WDI')
+install.packages('tidyr')
+library(WDI)
+library(tidyr)
+library(rio)
 
 #Setting directory
 setwd('/Users/AnaCe/Dropbox/Hertie/CollaborativeDataAnalysis/R/Assignment3MontesReyla')
 
-
 # 1. Load and data cleaning
-# Make an objet
-URL <- "http://esa.un.org/unmigration/TIMSO2013/data/subsheets/UN_MigrantStockByOriginAndDestination_2013T10.xls"
-#Create a temporary file to put the zip 
-temp <- tempfile()
-# Download the compressed 
-download.file(URL, Migration90.xls)
-# 
-Migration90 = read.table( "UN_MigrantStockByOriginAndDestination_2013T10.xls")
-
-# another way
-
-require(xlsx)
-library(rio)
-full <- read.xlsx(temp, sheetIndex = 2)
-
-full <- import("UN_MigrantStockByOriginAndDestination_2013T10.xls", format = "xls", sheet = 2)
-
-full <- readxl::read_excel(temp, sheet = 2)
-
-full <- import(temp, sheet = 2, format = "xls")
+# Migration UN Data: loop
+tables <-c(2, 5, 8, 11)
+for (i in tables)
+  {
+  Migration<- import("UN_MigrantStockByOriginAndDestination_2013T10.xls", format = "xls", sheet =i)
+  emigration<- Migration[c(15,16),]
+  emigration<- t(emigration)
+  emigration<-as.data.frame(emigration)
+  emigration<- emigration[c(10:241),]
+  colnames(emigration) <- c("Country","Emigration")
+  assign(paste0("emigration", i), emigration)
+}
+emigrationtotal <- cbind(emigration11, emigration8, emigration5, emigration2)
+emigrationtotal <-emigrationtotal[,c(1,2, 4, 6,  8)]
 
 # WDI
 library(WDI)
