@@ -80,13 +80,20 @@ Merged <- plyr::rename(Merged, c("SP.DYN.TFRT.IN" = "FertilityRate"))
 
 #Counting NAs in the Independent Variables
 
-variables <-c("CellphoneUsers", "InternetUsers", "GDPPerCapita", "TotalPopulation", "Poverty", "UnemploymentRate", "IntentionalHomocides", "Corruption", "GovernmentEffectivness", "PoliticalStability", "RegulatoryStability", "RegulatoryQuality", "RuleOfLaw", "VoiceAndAccountability", "FertilityRate"  
-)
+variables <-c("CellphoneUsers", "InternetUsers", "GDPPerCapita", "TotalPopulation", "Poverty", "UnemploymentRate", "IntentionalHomocides", 
+              "Corruption", "GovernmentEffectivness", "PoliticalStability", "RegulatoryStability", "RegulatoryQuality", "RuleOfLaw", 
+              "VoiceAndAccountability", "FertilityRate")
 for (i in variables)
 {
-  Merge$sum <- sum(is.na(Merge$i))/nrow(Merge)
+  NAs$sum <- sum(is.na(Merged$i))/nrow(Merged)
 assign(paste0("sum", i), sum)
 }
+
+NAs <- NAs[,-c(1:39)]
+NAs <- AllNAs[!duplicated(AllNAs), ]
+TNAs <- t(NAs)
+table(TNAs)
+
 
 # MAPS
 library(sp)
