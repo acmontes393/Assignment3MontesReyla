@@ -54,9 +54,9 @@ wbdata <- c ("IT.CEL.SETS.P2", "IT.NET.USER.P2", "NY.GDP.PCAP.PP.CD","SP.POP.TOT
 WDI_indi<- WDI(country = "all", indicator = wbdata,
                    start = 1990, end = 2013, extra = FALSE, cache = NULL)
 
-emigationtotal$iso2c <- countrycode (emigationtotal$WDI_indi, origin = 'Country', destination = 'iso2c', warn = TRUE)
+emigrationtotal$iso2c <- countrycode (emigrationtotal$Country, origin = 'country.name', destination = 'iso2c', warn = TRUE)
 
-WDI_indi$iso2c <- countrycode (emigationtotal$Country, origin = 'Country', destination = 'iso2c', warn = TRUE)
+WDI_indi$iso2c <- countrycode (WDI_indi$country, origin = 'country.name', destination = 'iso2c', warn = TRUE)
 
 
 # MAPS
