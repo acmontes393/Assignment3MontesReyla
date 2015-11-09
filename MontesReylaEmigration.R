@@ -83,13 +83,14 @@ Merged <- plyr::rename(Merged, c("SP.DYN.TFRT.IN" = "FertilityRate"))
 variables <-c("CellphoneUsers", "InternetUsers", "GDPPerCapita", "TotalPopulation", "Poverty", "UnemploymentRate", "IntentionalHomocides", 
               "Corruption", "GovernmentEffectivness", "PoliticalStability", "RegulatoryStability", "RegulatoryQuality", "RuleOfLaw", 
               "VoiceAndAccountability", "FertilityRate")
+
 for (i in variables)
 {
-  NAs$sum <- sum(is.na(Merged$i))/nrow(Merged)
+NAs <- sum(is.na(Merged$variables))
 assign(paste0("sum", i), sum)
 }
 
-NAs <- NAs[,-c(1:39)]
+NAs <- NAs[,-c(1:20)]
 NAs <- AllNAs[!duplicated(AllNAs), ]
 TNAs <- t(NAs)
 table(TNAs)
