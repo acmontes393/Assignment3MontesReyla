@@ -47,7 +47,7 @@ rm(list = c("emigration","emigration11", "emigration2", "emigration5", "emigrati
 
 # 2. Loading the default data for the years 2000-2012 from the Worldbank database
 wbdata <- c ("IT.CEL.SETS.P2", "IT.NET.USER.P2", "NY.GDP.PCAP.PP.CD","SP.POP.TOTL","SI.POV.DDAY","SL.UEM.TOTL.ZS","VC.IHR.PSRC.P5"
-,"CC.EST","GE.EST","PV.EST","RQ.EST","RL.EST","VA.EST","SP.DYN.TFRT.IN","")
+,"CC.EST","GE.EST","PV.EST","RQ.EST","RL.EST","VA.EST","SP.DYN.TFRT.IN")
 
 # WDI
 
@@ -58,6 +58,35 @@ emigrationtotal$iso2c <- countrycode (emigrationtotal$Country, origin = 'country
 
 WDI_indi$iso2c <- countrycode (WDI_indi$country, origin = 'country.name', destination = 'iso2c', warn = TRUE)
 
+# 3. Merging "WDI Indicators " and "Migration"
+Merged <- merge(emigrationtotal, WDI_indi, by = c('iso2c','year'))
+summary(Merged)
+
+#4 Renaming all the variables with simple names
+Merged <- plyr::rename(Merged, c("IT.CEL.SETS.P2" = "CellphoneUsers"))
+Merged <- plyr::rename(Merged, c("IT.NET.USER.P2" = "InternetUsers"))
+Merged <- plyr::rename(Merged, c("NY.GDP.PCAP.PP.CD" = "GDPPerCapita"))
+Merged <- plyr::rename(Merged, c("SP.POP.TOTL" = "TotalPopulation"))
+Merged <- plyr::rename(Merged, c("SI.POV.DDAY" = "Poverty"))
+Merged <- plyr::rename(Merged, c("SL.UEM.TOTL.ZS" = "UnemploymentRate"))
+Merged <- plyr::rename(Merged, c("VC.IHR.PSRC.P5" = "IntentionalHomocides"))
+Merged <- plyr::rename(Merged, c("CC.EST" = "Corruption"))
+Merged <- plyr::rename(Merged, c("GE.EST" = "GovernmentEffectiveness"))
+Merged <- plyr::rename(Merged, c("PV.EST" = "PoliticalStability"))
+Merged <- plyr::rename(Merged, c("RQ.EST" = "RegulatoryQuality"))
+Merged <- plyr::rename(Merged, c("RL.EST" = "RuleOfLaw"))
+Merged <- plyr::rename(Merged, c("VA.EST" = " VoiceAndAccountability"))
+Merged <- plyr::rename(Merged, c("SP.DYN.TFRT.IN" = "FertilityRate"))
+
+#Counting NAs in the Independent Variables
+
+variables <-c("CellphoneUsers", "InternetUsers", "GDPPerCapita", "TotalPopulation", "Poverty", "UnemploymentRate", "IntentionalHomocides", "Corruption", "GovernmentEffectivness", "PoliticalStability", "RegulatoryStability", "RegulatoryQuality", "RuleOfLaw", "VoiceAndAccountability", "FertilityRate"  
+)
+for (i in variables)
+{
+  Merge$sum <- sum(is.na(Merge$i))/nrow(Merge)
+assign(paste0("sum", i), sum)
+}
 
 # MAPS
 library(sp)
