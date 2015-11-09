@@ -9,7 +9,10 @@ library(tidyr)
 library(rio)
 
 #Setting directory
-setwd('/Users/AnaCe/Dropbox/Hertie/CollaborativeDataAnalysis/R/Assignment3MontesReyla')
+#setwd('/Users/AnaCe/Dropbox/Hertie/CollaborativeDataAnalysis/R/Assignment3MontesReyla')
+
+setwd('/Users/ayrarowenareyla/Desktop/TheHertieSchoolofGoverance/CollaborativeSocialSciences/Assignments3MontesReyla')
+
 
 # 1. Load and data cleaning
 # Migration UN Data: loop
