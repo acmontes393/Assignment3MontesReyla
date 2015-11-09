@@ -3,6 +3,7 @@
 # Installing and loading packages
 install.packages('WDI')
 install.packages('tidyr')
+install.packages('rio')
 
 library(WDI)
 library(tidyr)
@@ -11,7 +12,7 @@ library(rio)
 #Setting directory
 #setwd('/Users/AnaCe/Dropbox/Hertie/CollaborativeDataAnalysis/R/Assignment3MontesReyla')
 
-setwd('/Users/ayrarowenareyla/Desktop/TheHertieSchoolofGoverance/CollaborativeSocialSciences/Assignments3MontesReyla')
+setwd('/Users/ayrarowenareyla/Desktop/The Hertie School of Governance/Collaborative Social Sciences/Assignment3MontesReyla')
 
 
 # 1. Load and data cleaning
@@ -37,12 +38,19 @@ emigrationtotal$year[emigrationtotal$year=="Emigration.2"] <- "2000"
 emigrationtotal$year[emigrationtotal$year=="Emigration.3"] <- "1990"
 ls()
 rm(list = c("emigration","emigration11", "emigration2", "emigration5", "emigration8", 
-            "i", "tables",))
+            "i", "tables"))
+
+
+# 2. Loading the default data for the years 2000-2012 from the Worldbank database
+wbdata <- c ("IT.CEL.SETS.P2", "IT.NET.USER.P2", "NY.GDP.PCAP.PP.CD","SP.POP.TOTL","SI.POV.DDAY","SL.UEM.TOTL.ZS","VC.IHR.PSRC.P5"
+,"CC.EST","GE.EST","PV.EST","RQ.EST","RL.EST","VA.EST","SP.DYN.TFRT.IN","")
 
 # WDI
 
-WDI_indi<- WDI(country = "all", indicator = c("IT.CEL.SETS.P2", "IT.NET.USER.P2", "NY.GDP.PCAP.PP.CD"),
+WDI_indi<- WDI(country = "all", indicator = wbdata,
                    start = 1990, end = 2013, extra = FALSE, cache = NULL)
+
+
 
 # MAPS
 library(sp)
@@ -51,3 +59,6 @@ library(spatstat)
 library(spdep)
 library(RColorBrewer)
 library(classInt)
+
+
+
