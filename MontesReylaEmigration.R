@@ -1,9 +1,9 @@
 # Collaborative Data Analysis Project 
 
-
 # Installing and loading packages
 install.packages('WDI')
 install.packages('tidyr')
+
 library(WDI)
 library(tidyr)
 library(rio)
@@ -26,10 +26,25 @@ for (i in tables)
 }
 emigrationtotal <- cbind(emigration11, emigration8, emigration5, emigration2)
 emigrationtotal <-emigrationtotal[,c(1,2, 4, 6,  8)]
+emigrationtotal <- gather(emigrationtotal, year, emigration, 2:5)
+emigrationtotal$year <- as.character(emigrationtotal$year)
+emigrationtotal$year[emigrationtotal$year=="Emigration"] <- "2013"
+emigrationtotal$year[emigrationtotal$year=="Emigration.1"] <- "2010"
+emigrationtotal$year[emigrationtotal$year=="Emigration.2"] <- "2000"
+emigrationtotal$year[emigrationtotal$year=="Emigration.3"] <- "1990"
+ls()
+rm(list = c("emigration","emigration11", "emigration2", "emigration5", "emigration8", 
+            "i", "tables",))
 
 # WDI
-library(WDI)
 
-WDI_indi<- WDI(country = "all", indicator = c("IT.CEL.SETS.P2", "IT.NET.USER.P2"),
+WDI_indi<- WDI(country = "all", indicator = c("IT.CEL.SETS.P2", "IT.NET.USER.P2", "NY.GDP.PCAP.PP.CD"),
                    start = 1990, end = 2013, extra = FALSE, cache = NULL)
 
+# MAPS
+library(sp)
+getClass("Spatial")
+library(spatstat)
+library(spdep)
+library(RColorBrewer)
+library(classInt)
