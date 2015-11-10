@@ -1,30 +1,40 @@
-# Collaborative Data Analysis Project 
+########################################################################################
+########################## Collaborative Data Analysis Assigement 3 ####################
+########################################################################################
 
-# Installing and loading packages
+# Clearinf the workspace
+rm(list = ls())
+
+# 1. Installing and loading packages
 install.packages('WDI')
 install.packages('tidyr')
 install.packages('rio')
 install.packages('countrycode')
+install.packages("RJOSONIO")  
+install.packages ("ggplot2")
 
 
 library(countrycode)
 library(WDI)
 library(tidyr)
 library(rio)
+library(RJSONIO)
+library(ggplot2)
 
-#Setting directory
-#setwd('/Users/AnaCe/Dropbox/Hertie/CollaborativeDataAnalysis/R/Assignment3MontesReyla')
+#2. Setting directory
+setwd('/Users/AnaCe/Desktop/Assignment3MontesReyla')
+#setwd('/Users/ayrarowenareyla/Desktop/The Hertie School of Governance/Collaborative Social Sciences/Assignment3MontesReyla/Assignment3MontesReyla')
 
-setwd('/Users/ayrarowenareyla/Desktop/The Hertie School of Governance/Collaborative Social Sciences/Assignment3MontesReyla/Assignment3MontesReyla')
+# 3. Load and data cleaning
 
+# Migration UN Data: loop that loads into R each table 
+# in the file and extracts the relevant information for this assigment
 
-
-# 1. Load and data cleaning
-# Migration UN Data: loop
 tables <-c(2, 5, 8, 11)
 for (i in tables)
   {
-  Migration<- import("UN_MigrantStockByOriginAndDestination_2013T10.xls", format = "xls", sheet =i)
+  Migration<- import("UN_MigrantStockByOriginAndDestination_2013T10.xls", 
+                     format = "xls", sheet =i)
   emigration<- Migration[c(15,16),]
   emigration<- t(emigration)
   emigration<-as.data.frame(emigration)
@@ -44,25 +54,25 @@ ls()
 rm(list = c("emigration","emigration11", "emigration2", "emigration5", "emigration8", 
             "i", "tables"))
 
-
 # 2. Loading the default data for the years 2000-2012 from the Worldbank database
 wbdata <- c ("IT.CEL.SETS.P2", "IT.NET.USER.P2", "NY.GDP.PCAP.PP.CD","SP.POP.TOTL","SI.POV.DDAY","SL.UEM.TOTL.ZS","VC.IHR.PSRC.P5"
 ,"CC.EST","GE.EST","PV.EST","RQ.EST","RL.EST","VA.EST","SP.DYN.TFRT.IN")
 
-# WDI
-
 WDI_indi<- WDI(country = "all", indicator = wbdata,
                    start = 1990, end = 2013, extra = FALSE, cache = NULL)
 
-emigrationtotal$iso2c <- countrycode (emigrationtotal$Country, origin = 'country.name', destination = 'iso2c', warn = TRUE)
+# 3. Creating an unique identifier for both data frames
+emigrationtotal$iso2c <- countrycode (emigrationtotal$Country, origin = 'country.name', 
+                                      destination = 'iso2c', warn = TRUE)
 
-WDI_indi$iso2c <- countrycode (WDI_indi$country, origin = 'country.name', destination = 'iso2c', warn = TRUE)
+WDI_indi$iso2c <- countrycode (WDI_indi$country, origin = 'country.name', 
+                               destination = 'iso2c', warn = TRUE)
 
-# 3. Merging "WDI Indicators " and "Migration"
+# 4. Merging "WDI Indicators " and "UN Migration stocks"
 Merged <- merge(emigrationtotal, WDI_indi, by = c('iso2c','year'))
 summary(Merged)
 
-#4 Renaming all the variables with simple names
+# 5. Renaming all the variables with simple names
 Merged <- plyr::rename(Merged, c("IT.CEL.SETS.P2" = "CellphoneUsers"))
 Merged <- plyr::rename(Merged, c("IT.NET.USER.P2" = "InternetUsers"))
 Merged <- plyr::rename(Merged, c("NY.GDP.PCAP.PP.CD" = "GDPPerCapita"))
@@ -78,17 +88,25 @@ Merged <- plyr::rename(Merged, c("RL.EST" = "RuleOfLaw"))
 Merged <- plyr::rename(Merged, c("VA.EST" = " VoiceAndAccountability"))
 Merged <- plyr::rename(Merged, c("SP.DYN.TFRT.IN" = "FertilityRate"))
 
-#Counting NAs in the Independent Variables
+# 6. Counting NAs in the Independent Variables
 
 variables <-c("CellphoneUsers", "InternetUsers", "GDPPerCapita", "TotalPopulation", "Poverty", "UnemploymentRate", "IntentionalHomocides", 
               "Corruption", "GovernmentEffectivness", "PoliticalStability", "RegulatoryStability", "RegulatoryQuality", "RuleOfLaw", 
               "VoiceAndAccountability", "FertilityRate")
 
-for (i in variables)
-{
-NAs <- sum(is.na(Merged$variables))
-assign(paste0("sum", i), sum)
+# failed intents...
+
+for (i in variables) {
+NAs <- c(sum(is.na(Merged$i)))
 }
+assign(paste0("NAs", i), sum)
+NAs<-as.data.frame(NAs)
+
+}
+
+
+
+
 
 NAs <- NAs[,-c(1:20)]
 NAs <- AllNAs[!duplicated(AllNAs), ]
