@@ -5,7 +5,8 @@
 # Clearing the workspace
 rm(list = ls())
 
-# 1. Installing and loading packages
+
+# Installing and loading packages
 install.packages('WDI')
 install.packages('tidyr')
 install.packages('rio')
@@ -14,13 +15,10 @@ install.packages("RJOSONIO")
 install.packages ("ggplot2")
 install.packages("rworldmap")
 install.packages("sp")
-install.packages("mapCountryData")
+
 
 library("ggmap")
 library(maptools)
-library(?world)
-
-
 library(countrycode)
 library(WDI)
 library(tidyr)
@@ -29,16 +27,19 @@ library(RJSONIO)
 library(ggplot2)
 library(rworldmap)
 library(sp)
-library(joinCountryData2Map)
+
 
 #2. Setting directory
 setwd('/Users/AnaCe/Desktop/Assignment3MontesReyla')
 #setwd('/Users/ayrarowenareyla/Desktop/The Hertie School of Governance/Collaborative Social Sciences/Assignment3MontesReyla/Assignment3MontesReyla')
 
-# 3. Load and data cleaning
+####################################################################################
+############################# LOADING AND CLEANING DATA ############################
+####################################################################################
 
-# Migration UN Data: loop that loads into R each table 
-# in the file and extracts the relevant information for this assigment
+# 1.Loading Migration UN Data
+
+### loop that loads into R each table in the file and extracts the relevant information for this assigment
 
 tables <-c(2, 5, 8, 11)
 for (i in tables)   {
@@ -63,14 +64,14 @@ ls()
 rm(list = c("emigration","emigration11", "emigration2", "emigration5", "emigration8", 
             "i", "tables"))
 
-# 2. Loading the default data for the years 2000-2012 from the Worldbank database
+# 2.Loading data from the Worldbank database
 wbdata <- c ("IT.CEL.SETS.P2", "IT.NET.USER.P2", "NY.GDP.PCAP.PP.CD","SP.POP.TOTL","SI.POV.DDAY","SL.UEM.TOTL.ZS","VC.IHR.PSRC.P5"
 ,"CC.EST","GE.EST","PV.EST","RQ.EST","RL.EST","VA.EST","SP.DYN.TFRT.IN")
 
 WDI_indi<- WDI(country = "all", indicator = wbdata,
                    start = 1990, end = 2013, extra = FALSE, cache = NULL)
 
-# 3. Creating an unique identifier for both data frames
+# 3.Creating an unique identifier for both data frames
 emigrationtotal$iso2c <- countrycode (emigrationtotal$Country, origin = 'country.name', 
                                       destination = 'iso2c', warn = TRUE)
 
@@ -99,19 +100,19 @@ Merged <- plyr::rename(Merged, c("SP.DYN.TFRT.IN" = "FertilityRate"))
 
 # 6. Counting NAs in the Independent Variables
 
-variables <-c("CellphoneUsers", "InternetUsers", "GDPPerCapita", "TotalPopulation", "Poverty", "UnemploymentRate", "IntentionalHomocides", 
-              "Corruption", "GovernmentEffectivness", "PoliticalStability", "RegulatoryStability", "RegulatoryQuality", "RuleOfLaw", 
-              "VoiceAndAccountability", "FertilityRate")
-
+variables <-c("CellphoneUsers", "InternetUsers", "GDPPerCapita", "TotalPopulation", "Poverty",
+              "UnemploymentRate", "IntentionalHomocides", "Corruption", "FertilityRate", 
+              "GovernmentEffectivness", "PoliticalStability", "RegulatoryStability", 
+              "RegulatoryQuality", "RuleOfLaw", "VoiceAndAccountability")
 
 NAs<- sum(is.na(Merged$CellphoneUsers))/nrow(Merged)
-NAs$Poverty<- sum(is.na(Merged$Poverty))/nrow(Merged)
 NAs$InternetUsers<- sum(is.na(Merged$InternetUsers))/nrow(Merged)
 NAs$GDPPerCapita<- sum(is.na(Merged$GDPPerCapita))/nrow(Merged)
 NAs$TotalPopulation<- sum(is.na(Merged$TotalPopulation))/nrow(Merged)
+NAs$Poverty<- sum(is.na(Merged$Poverty))/nrow(Merged)
+NAs$UnemploymentRate<- sum(is.na(Merged$UnemploymentRate))/nrow(Merged)
 NAs$Corruption<- sum(is.na(Merged$Corruption))/nrow(Merged)
 NAs$IntentionalHomocides<- sum(is.na(Merged$IntentionalHomocides))/nrow(Merged)
-NAs$TotalPopulation<- sum(is.na(Merged$TotalPopulation))/nrow(Merged)
 NAs$GovernmentEffectivness<- sum(is.na(Merged$GovernmentEffectivness))/nrow(Merged)
 NAs$PoliticalStability<- sum(is.na(Merged$PoliticalStability))/nrow(Merged)
 NAs$RegulatoryStability<- sum(is.na(Merged$RegulatoryStability))/nrow(Merged)
@@ -120,10 +121,11 @@ NAs$FertilityRate<- sum(is.na(Merged$FertilityRate))/nrow(Merged)
 
 # After looking at the number of missing variables in the Merged data frame.
 # Also, we are dropping independent variables with more than 15% of the total observations NA 
-Merged <- Merged[, !(colnames(Merged)) %in% c("Poverty", "PoliticalStability","Corruption", "IntentionalHomocides")]
+Merged <- Merged[, !(colnames(Merged)) %in% c("Poverty", "IntentionalHomocides","PoliticalStability","Corruption", "UnemploymentRate")]
 
-# Variables as numeric
+# Check Variables structure
 str(Merged)
+
 # Code variables as numeric
 Merged$year <- as.numeric(Merged$year)
 Merged$emigration <- as.numeric(Merged$emigration)
@@ -131,8 +133,15 @@ Merged$emigration <- as.numeric(Merged$emigration)
 # Generating variables
 Merged$emigrationpercap = Merged$emigration/Merged$TotalPopulation*1000
 Merged$lnemigrationpercap =log(Merged$emigrationpercap)
+Merged$emigration2 = Merged$emigration/1000
 
-# MAPS
+
+
+####################################################################################
+############################## DESCRIPTIVE STATISTICS ##############################
+####################################################################################
+
+# Maps
 
 data("worldMapEnv")
 map("world", fill=TRUE, col="pink", bg="lightblue", ylim=c(-60, 90), mar=c(0,0,0,0))
@@ -140,17 +149,22 @@ sPDF <- joinCountryData2Map( Merged$emigration
                              ,joinCode = "iso2c"
                              ,nameJoinColumn = "iso2c")
 
-
 ## Historgram
-hist(Merged$lnemigrationpercap, xlab = "Number of emigrants per 1000 people", main = "Histogram")
-hist(Loblolly$age, xlab = "Age (Years)", main= "Histogram of Loblolly pine trees' age") 
-## Means
-mean(Loblolly$height, na.rm = TRUE)
-mean (Loblolly$age, na.rm = TRUE)
+hist(Merged$emigrationpercap, xlab = "Number of emigrants per 1000 people", main = "Histogram")
+hist(Merged$emigration2, xlab = "Tousands of emigrants", main = "Histogram")
 
 ## Summary
-summary(Merged$height)
-summary(Loblolly$age)
+summary(Merged$emigration2, na.rm = TRUE)
+summary(Merged$CellphoneUsers, na.rm = TRUE)
+summary(Merged$InternetUsers, na.rm = TRUE)
+summary(Merged$GDPPerCapita, na.rm = TRUE)
+summary(Merged$TotalPopulation, na.rm = TRUE)
+summary(Merged$FertilityRate, na.rm = TRUE)
+summary(Merged$GovernmentEffectivness, na.rm = TRUE)
+summary(Merged$RegulatoryStability, na.rm = TRUE)
+summary(Merged$RegulatoryQuality, na.rm = TRUE)
+summary(Merged$RuleOfLaw, na.rm = TRUE)
+summary(Merged$VoiceAndAccountability, na.rm = TRUE)
 
 #Range
 range(Loblolly$height)
@@ -181,10 +195,10 @@ sd_error(Loblolly$height)
 sd_error(Loblolly$age)
 
 # Joint Distribution
-plot(height ~ age, data = Loblolly, 
-     xlab = "Tree age (yr)", las = 1,
-     ylab = "Tree height (ft)",
-     main = "Loblolly data and fitted curve")
+plot(emigration2 ~ CellphoneUsers, data = Merged, 
+     xlab = "E", las = 1,
+     ylab = "C",
+     main = "Emigration data and fitted curve")
 # Correlation
 cor.test(Loblolly$height, Loblolly$age)
 
@@ -192,5 +206,8 @@ cor.test(Loblolly$height, Loblolly$age)
 library (ggplot2)
 ggplot2::ggplot(Loblolly, aes(age, height)) + geom_point() + geom_smooth() + theme_bw()
 
+####################################################################################
+#################################### PANEL MODEL ###################################
+####################################################################################
 
 
