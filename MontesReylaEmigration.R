@@ -18,6 +18,8 @@ install.packages("sp")
 install.packages("rworldmap")
 install.packages("joinCountryData2Map")
 install.packages("colorspace")
+install.packages("RColourBrewer")
+
 
 library("ggmap")
 library("maptools")
@@ -30,6 +32,7 @@ library("ggplot2")
 library("rworldmap")
 library("sp")
 library("colorspace")
+library('rworldmap')
 
 
 
@@ -150,17 +153,13 @@ Merged <-subset.data.frame(Merged, select = -Country)
 
 # choosing a colour palette
 
-pal <- choose_palette()
+
 
 sPDF <- joinCountryData2Map( Merged
                              ,joinCode = "ISO2"
                              ,nameJoinColumn = "iso2c")
 mapDevice(Map1) #create world map shaped window
-mapCountryData(sPDF
-               ,nameColumnToPlot='emigration')
-mapDevice() #create world map shaped window
-mapCountryData(sPDF
-               ,nameColumnToPlot='Emigration', colourPalette = 'rainbow')
+mapCountryData(sPDF ,nameColumnToPlot='emigration',  colourPalette = c('magenta','purple', 'light blue', 'blue', 'navy'))
 
 ## Historgram
 hist(Merged$emigrationpercap, xlab = "Number of emigrants per 1000 people", main = "Histogram")
