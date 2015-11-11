@@ -17,6 +17,7 @@ install.packages("rworldmap")
 install.packages("sp")
 install.packages("rworldmap")
 install.packages("joinCountryData2Map")
+install.packages("colorspace")
 
 library("ggmap")
 library("maptools")
@@ -28,6 +29,8 @@ library("RJSONIO")
 library("ggplot2")
 library("rworldmap")
 library("sp")
+library("colorspace")
+
 
 
 #2. Setting directory
@@ -136,7 +139,8 @@ Merged$emigrationpercap = Merged$emigration/Merged$TotalPopulation*1000
 Merged$lnemigrationpercap =log(Merged$emigrationpercap)
 Merged$emigration2 = Merged$emigration/1000
 
-
+# Removing extra country name coloumn
+Merged <-subset.data.frame(Merged, select = -Country)
 
 ####################################################################################
 ############################## DESCRIPTIVE STATISTICS ##############################
@@ -144,11 +148,19 @@ Merged$emigration2 = Merged$emigration/1000
 
 # Maps
 
-data("worldMapEnv")
-map("world", fill=TRUE, col="pink", bg="lightblue", ylim=c(-60, 90), mar=c(0,0,0,0))
-sPDF <- joinCountryData2Map( Merged$emigration
-                             ,joinCode = "iso2c"
+# choosing a colour palette
+
+pal <- choose_palette()
+
+sPDF <- joinCountryData2Map( Merged
+                             ,joinCode = "ISO2"
                              ,nameJoinColumn = "iso2c")
+mapDevice(Map1) #create world map shaped window
+mapCountryData(sPDF
+               ,nameColumnToPlot='emigration')
+mapDevice() #create world map shaped window
+mapCountryData(sPDF
+               ,nameColumnToPlot='Emigration', colourPalette = 'rainbow')
 
 ## Historgram
 hist(Merged$emigrationpercap, xlab = "Number of emigrants per 1000 people", main = "Histogram")
