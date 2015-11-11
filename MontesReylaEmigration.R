@@ -16,6 +16,7 @@ install.packages ("ggplot2")
 install.packages("rworldmap")
 install.packages("sp")
 install.packages("rworldmap")
+install.packages("joinCountryData2Map")
 
 library("ggmap")
 library("maptools")
