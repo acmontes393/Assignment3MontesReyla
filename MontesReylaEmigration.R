@@ -15,23 +15,23 @@ install.packages("RJOSONIO")
 install.packages ("ggplot2")
 install.packages("rworldmap")
 install.packages("sp")
-
+install.packages("rworldmap")
 
 library("ggmap")
-library(maptools)
-library(countrycode)
-library(WDI)
-library(tidyr)
-library(rio)
-library(RJSONIO)
-library(ggplot2)
-library(rworldmap)
-library(sp)
+library("maptools")
+library("countrycode")
+library("WDI")
+library("tidyr")
+library("rio")
+library("RJSONIO")
+library("ggplot2")
+library("rworldmap")
+library("sp")
 
 
 #2. Setting directory
-setwd('/Users/AnaCe/Desktop/Assignment3MontesReyla')
-#setwd('/Users/ayrarowenareyla/Desktop/The Hertie School of Governance/Collaborative Social Sciences/Assignment3MontesReyla/Assignment3MontesReyla')
+#setwd('/Users/AnaCe/Desktop/Assignment3MontesReyla')
+setwd('/Users/ayrarowenareyla/Desktop/The Hertie School of Governance/Collaborative Social Sciences/Assignment3MontesReyla/Assignment3MontesReyla')
 
 ####################################################################################
 ############################# LOADING AND CLEANING DATA ############################
