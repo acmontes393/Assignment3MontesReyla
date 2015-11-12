@@ -15,7 +15,6 @@ rm(list = ls())
 #install.packages ("ggplot2")
 #install.packages("rworldmap")
 #install.packages("sp")
-#install.packages("rworldmap")
 #install.packages("joinCountryData2Map")
 install.packages("plm")
 install.packages("Formula")
@@ -25,10 +24,10 @@ install.packages("pglm")
 library("ggmap")
 library("maptools")
 library("countrycode")
+library("RJSONIO")
 library("WDI")
 library("tidyr")
 library("rio")
-library("RJSONIO")
 library("ggplot2")
 library("rworldmap")
 library("sp")
@@ -78,13 +77,15 @@ wbdata <- c ("IT.CEL.SETS.P2", "IT.NET.USER.P2", "NY.GDP.PCAP.PP.CD","SP.POP.TOT
 
 WDI_indi<- WDI(country = "all", indicator = wbdata,
                    start = 1990, end = 2013, extra = FALSE, cache = NULL)
-
 # 6. Creating an unique identifier for both data frames
 emigrationtotal$iso2c <- countrycode (emigrationtotal$Country, origin = 'country.name', 
                                       destination = 'iso2c', warn = TRUE)
 
 WDI_indi$iso2c <- countrycode (WDI_indi$country, origin = 'country.name', 
                                destination = 'iso2c', warn = TRUE)
+
+# Deleting agregates in the WDI indicators
+WDI_indi <- WDI_indi[!is.na(WDI_indi$iso2c),]
 
 # 7. Merging "WDI Indicators " and "UN Migration stocks"
 Merged <- merge(emigrationtotal, WDI_indi, by = c('iso2c','year'))
@@ -151,7 +152,6 @@ Merged$emigration <- as.numeric(Merged$emigration)
 # Removing extra country name coloumn
 Merged <-subset.data.frame(Merged, select = -Country)
 
-
 # 9. Generating variables
 Merged$emigration2 = Merged$emigration/1000
 Merged$emigrationpercap = Merged$emigration/Merged$TotalPopulation
@@ -166,9 +166,13 @@ merged13 <-subset(Merged, year==2013)
 
 # Creating a .csv file with the final version of the data
 write.csv(Merged, file="MontesandReyla")
+
 ###############################################################################################
 ############################### DESCRIPTIVE STATISTICS ##############################
 ####################################################################################
+
+##Set data as panel data
+Merged <- plm.data(Merged, index=c("iso2c", "year"))
 
 # Mapping global emigration
 # 1990
@@ -204,8 +208,6 @@ mapCountryData(sPDFIV, nameColumnToPlot='emigrationpercap', mapTitle= 'Number of
                colourPalette = c("darkorange", "coral2","gold","aquamarine1", "cyan3", "blue","magenta"),
                borderCol='black')
 
-##Set data as panel data
-Merged <- plm.data(Merged, index=c("iso2c", "year"))
 
 ## Historgram
 hist(Merged$emigration2, xlab = "Tousands of emigrants", main = "Histogram", xlim=range(0:14170))
@@ -226,7 +228,7 @@ summary(Merged$RuleOfLaw, na.rm = TRUE)
 summary(Merged$VoiceAndAccountability, na.rm = TRUE)
 
 #Range
-range(Merged$)
+range(Merged$emigration)
 
 #Interquantile Range
 IQR(Merged$emigration)
@@ -240,13 +242,10 @@ var(Merged$emigration2)
 var(Merged$CellphoneUsers)
 var(Merged$InternetUsers)
 
-
-
 #Standar Deviation
 sd(Merged$emigration2)
 sd(Merged$CellphoneUsers)
 sd(Merged$InternetUsers)
-
 
 #Standar Error function
 sd_error <- function(x) {
@@ -256,7 +255,7 @@ sd_error <- function(x) {
 sd_error(Merged$)
 
 # Joint Distribution
-plot(emigration2 ~ InternetUsers, data = merged13, 
+plot(emigration ~ InternetUsers, data = merged13, 
      xlab = "E", las = 1,
      ylab = "C",
      main = "Emigration data and fitted curve")
@@ -266,15 +265,21 @@ plot(emigrationpercap ~ GDPPerCapita, data = merged13,
      ylab = "C",
      main = "Emigration data and fitted curve")
 
-plot(emigrationper2 ~ GDPPerCapita, data = merged13, 
+plot(emigrationpercap ~ GDPPerCapita, data = merged13, 
+     xlab = "E", las = 1,
+     ylab = "C",
+     main = "Emigration data and fitted curve")
+
+plot(emigration ~ year, data = Merged, 
      xlab = "E", las = 1,
      ylab = "C",
      main = "Emigration data and fitted curve")
 
 
-
 # Correlation
 cor.test(Merged$emigrationpercap, Merged$InternetUsers)
+cor.test(Merged$emigration, Merged$InternetUsers)
+
 cor.test(Merged$emigrationpercap, Merged$CellphoneUsers)
 cor.test(Merged$InternetUsers, Merged$CellphoneUsers, na.rm = TRUE)
 
