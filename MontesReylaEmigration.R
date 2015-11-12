@@ -6,6 +6,7 @@
 rm(list = ls())
 
 # Installing and loading packages
+
 #install.packages('WDI')
 #install.packages('tidyr')
 #install.packages('rio')
@@ -16,6 +17,8 @@ rm(list = ls())
 #install.packages("sp")
 #install.packages("rworldmap")
 #install.packages("joinCountryData2Map")
+install.packages("plm")
+install.packages("Formula")
 
 
 library("ggmap")
@@ -29,6 +32,8 @@ library("ggplot2")
 library("rworldmap")
 library("sp")
 library('rworldmap')
+library('Formula')
+library('plm')
 
 
 #2. Setting directory
@@ -134,7 +139,7 @@ Merged$emigration <- as.numeric(Merged$emigration)
 
 # Generating variables
 Merged$emigration2 = Merged$emigration/1000
-Merged$emigrationpercap = Merged$emigration/Merged$TotalPopulation*1000
+Merged$emigrationpercap = Merged$emigration/Merged$TotalPopulation
 
 # Removing extra country name coloumn
 Merged <-subset.data.frame(Merged, select = -Country)
@@ -155,34 +160,41 @@ sPDF <- joinCountryData2Map( merged90
                              ,joinCode = "ISO2"
                              ,nameJoinColumn = "iso2c")
 mapDevice(Map1)
-mapCountryData(sPDF, nameColumnToPlot='emigrationpercap', 
-               colourPalette = c("pink","red","blue"))
+mapCountryData(sPDF, nameColumnToPlot='emigrationpercap', mapTitle= 'Number of emigrants per capita 1990',
+               colourPalette = c("darkorange", "coral2","gold","aquamarine1", "cyan3", "blue","magenta"),
+               borderCol='black')
 # 2000
-sPDF <- joinCountryData2Map( merged00
+sPDFII <- joinCountryData2Map( merged00
                              ,joinCode = "ISO2"
                              ,nameJoinColumn = "iso2c")
 mapDevice(Map2)
-mapCountryData(sPDFII, nameColumnToPlot='emigrationpercap', 
-               colourPalette = c("pink","red","blue"))
+mapCountryData(sPDFII, nameColumnToPlot='emigrationpercap', mapTitle= 'Number of emigrants per capita 2000',
+               colourPalette = c("darkorange", "coral2","gold","aquamarine1", "cyan3", "blue","magenta"),
+               borderCol='black')
 # 2010
 sPDFIII <- joinCountryData2Map( merged10
                                 ,joinCode = "ISO2"
                                 ,nameJoinColumn = "iso2c")
 mapDevice(Map3)
-mapCountryData(sPDFIII, nameColumnToPlot='emigrationpercap', 
-               colourPalette = c("pink","red","blue"))
+mapCountryData(sPDFIII, nameColumnToPlot='emigrationpercap', mapTitle= 'Number of emigrants per capita 2010',
+               colourPalette = c("darkorange", "coral2","gold","aquamarine1", "cyan3", "blue","magenta"),
+               borderCol='black')
 # 2013
 sPDFIV <- joinCountryData2Map( merged13
                                ,joinCode = "ISO2"
                                ,nameJoinColumn = "iso2c")
 mapDevice(Map4)
-mapCountryData(sPDFIV, nameColumnToPlot='emigrationpercap', 
-               colourPalette = c("pink","red","blue"))
+mapCountryData(sPDFIV, nameColumnToPlot='emigrationpercap', mapTitle= 'Number of emigrants per capita 2013',
+               colourPalette = c("darkorange", "coral2","gold","aquamarine1", "cyan3", "blue","magenta"),
+               borderCol='black')
+
+##Set data as panel data
+Merged <- plm.data(Merged, index=c("iso2c", "year"))
 
 ## Historgram
-## Historgram
-hist(Merged$emigrationpercap, xlab = "Number of emigrants per 1000 people", main = "Histogram")
-hist(Merged$emigration2, xlab = "Tousands of emigrants", main = "Histogram")
+hist(Merged$emigration2, xlab = "Tousands of emigrants", main = "Histogram", xlim=range(0:14170))
+hist(Merged$CellphoneUsers, xlab = "CellUsers", main = "Histogram")
+
 
 ## Summary
 summary(Merged$emigration2, na.rm = TRUE)
@@ -198,15 +210,13 @@ summary(Merged$RuleOfLaw, na.rm = TRUE)
 summary(Merged$VoiceAndAccountability, na.rm = TRUE)
 
 #Range
-range(Loblolly$height)
-range(Loblolly$age)
+range(Merged$)
 
 #Interquantile Range
-IQR(Loblolly$height)
-IQR(Loblolly$age)
+IQR(Merged$emigration)
 
 # Boxplots
-boxplot(Loblolly$height, main = 'Loblolly Tree height')
+boxplot(Merged$emigration2, main = 'Emigration')
 boxplot(Merged$CellphoneUsers, main = 'Cellphone Users')
 
 #Variance
@@ -241,8 +251,19 @@ plot(emigrationpercap ~ GDPPerCapita, data = merged13,
      ylab = "C",
      main = "Emigration data and fitted curve")
 
+plot(emigrationpercap ~ GDPPerCapita, data = merged13, 
+     xlab = "E", las = 1,
+     ylab = "C",
+     main = "Emigration data and fitted curve")
+
+
 
 # Correlation
+cor.test(Merged$emigrationpercap, Merged$InternetUsers)
+cor.test(Merged$emigrationpercap, Merged$CellphoneUsers)
+cor.test(Merged$emigrationpercap, Merged$GovernmentEffectivness, na.rm = TRUE)
+
+
 
 cor.test(merged90$emigrationpercap, merged90$InternetUsers)
 cor.test(merged10$emigrationpercap, merged10$InternetUsers)
