@@ -32,7 +32,11 @@ Has the increase use of technologies such as internet and mobile phones affected
 
 In order to examine the flows of migration, we intend to use data on trends in _International Migrant Stock_ produced by the United Nations. The data contains information from 232 countries and provides the number of migrants by destination and country of origin for four periods of time; 1990, 2000, 2010, and 2013. Moreover, to account for technology diffusion we will use _World Bank indicators_ on the number of Internet users and the number of cellular mobile subscriptions for each country. 
 
-#Data Collection
+The _International Migrant Stock Total_ indicates the number of people born in a country other than the country in which they currently reside in, this includes refugees as well. The dataset estimates the international migrant stock at a particular time and are mainly collecte from population censuses. 
+Also, the dataset presents the estimates of : (1) international migrant stock at mid-year; (2) total population at mid-year (thousands); (3) international migrant stock as a percentage of the total population; (4) annual rate of change of migrant stock (percentage); and (5) estimated number of refugees. The estimates are based on official statistics on the foreign-born or the foreign population. 
+
+This analysis will focus on the estimates for the years 1990, 2000, 2010 and 2013. 
+
 
 #Descriptive Statistics
 
