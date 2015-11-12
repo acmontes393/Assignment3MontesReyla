@@ -31,18 +31,16 @@ library("RJSONIO")
 library("ggplot2")
 library("rworldmap")
 library("sp")
-library("colorspace")
 library('rworldmap')
 
 
-
 #2. Setting directory
-#setwd('/Users/AnaCe/Desktop/Assignment3MontesReyla')
-setwd('/Users/ayrarowenareyla/Desktop/The Hertie School of Governance/Collaborative Social Sciences/Assignment3MontesReyla/Assignment3MontesReyla')
+setwd('/Users/AnaCe/Desktop/Assignment3MontesReyla')
+#setwd('/Users/ayrarowenareyla/Desktop/The Hertie School of Governance/Collaborative Social Sciences/Assignment3MontesReyla/Assignment3MontesReyla')
 
-####################################################################################
-############################# LOADING AND CLEANING DATA ############################
-####################################################################################
+########################################################################################
+################################# LOADING AND CLEANING DATA ############################
+########################################################################################
 
 # 1.Loading Migration UN Data
 
@@ -145,22 +143,47 @@ Merged$emigration2 = Merged$emigration/1000
 # Removing extra country name coloumn
 Merged <-subset.data.frame(Merged, select = -Country)
 
+# sub dataframes by year
+merged90 <-subset(Merged, year==1990)
+merged00 <-subset(Merged, year==2000)
+merged10 <-subset(Merged, year==2010)
+merged13 <-subset(Merged, year==2013)
+
+###############################################################################################
+############################### DESCRIPTIVE STATISTICS ##############################
 ####################################################################################
-############################## DESCRIPTIVE STATISTICS ##############################
-####################################################################################
 
-# Maps
-
-# choosing a colour palette
-
-
-
-sPDF <- joinCountryData2Map( Merged
+# Mapping global emigration
+# 1990
+sPDF <- joinCountryData2Map( merged90
                              ,joinCode = "ISO2"
                              ,nameJoinColumn = "iso2c")
-mapDevice(Map1) #create world map shaped window
-mapCountryData(sPDF ,nameColumnToPlot='emigration',  colourPalette = c('magenta','purple', 'light blue', 'blue', 'navy'))
+mapDevice(Map1)
+mapCountryData(sPDF, nameColumnToPlot='emigrationpercap', 
+               colourPalette = c("pink","red","blue"))
+# 2000
+sPDF <- joinCountryData2Map( merged00
+                             ,joinCode = "ISO2"
+                             ,nameJoinColumn = "iso2c")
+mapDevice(Map2)
+mapCountryData(sPDFII, nameColumnToPlot='emigrationpercap', 
+               colourPalette = c("pink","red","blue"))
+# 2010
+sPDFIII <- joinCountryData2Map( merged10
+                                ,joinCode = "ISO2"
+                                ,nameJoinColumn = "iso2c")
+mapDevice(Map3)
+mapCountryData(sPDFIII, nameColumnToPlot='emigrationpercap', 
+               colourPalette = c("pink","red","blue"))
+# 2013
+sPDFIV <- joinCountryData2Map( merged13
+                               ,joinCode = "ISO2"
+                               ,nameJoinColumn = "iso2c")
+mapDevice(Map4)
+mapCountryData(sPDFIV, nameColumnToPlot='emigrationpercap', 
+               colourPalette = c("pink","red","blue"))
 
+## Historgram
 ## Historgram
 hist(Merged$emigrationpercap, xlab = "Number of emigrants per 1000 people", main = "Histogram")
 hist(Merged$emigration2, xlab = "Tousands of emigrants", main = "Histogram")
@@ -188,15 +211,20 @@ IQR(Loblolly$age)
 
 # Boxplots
 boxplot(Loblolly$height, main = 'Loblolly Tree height')
-boxplot(Loblolly$age, main = 'Loblolly Tree age')
+boxplot(Merged$CellphoneUsers, main = 'Cellphone Users')
 
 #Variance
-var(Loblolly$height)
-var(Loblolly$age)
+var(Merged$emigration2)
+var(Merged$CellphoneUsers)
+var(Merged$InternetUsers)
+
+
 
 #Standar Deviation
-sd(Loblolly$height)
-sd(Loblolly$age)
+sd(Merged$emigration2)
+sd(Merged$CellphoneUsers)
+sd(Merged$InternetUsers)
+
 
 #Standar Error function
 sd_error <- function(x) {
@@ -207,19 +235,35 @@ sd_error(Loblolly$height)
 sd_error(Loblolly$age)
 
 # Joint Distribution
-plot(emigration2 ~ CellphoneUsers, data = Merged, 
+plot(emigrationpercap ~ InternetUsers, data = merged13, 
      xlab = "E", las = 1,
      ylab = "C",
      main = "Emigration data and fitted curve")
+
+plot(emigrationpercap ~ GDPPerCapita, data = merged13, 
+     xlab = "E", las = 1,
+     ylab = "C",
+     main = "Emigration data and fitted curve")
+
+
 # Correlation
-cor.test(Loblolly$height, Loblolly$age)
+
+cor.test(merged90$emigrationpercap, merged90$InternetUsers)
+cor.test(merged10$emigrationpercap, merged10$InternetUsers)
+cor.test(merged13$emigrationpercap, merged13$InternetUsers)
+
+
 
 #Summarise with loess
-library (ggplot2)
-ggplot2::ggplot(Loblolly, aes(age, height)) + geom_point() + geom_smooth() + theme_bw()
+ggplot2::ggplot(merged13, aes(emigrationpercap, InternetUsers)) + geom_point() + geom_smooth() + theme_bw()
 
 ####################################################################################
 #################################### PANEL MODEL ###################################
+####################################################################################
+
+
+
+
 ####################################################################################
 
 
