@@ -19,7 +19,18 @@ knitr::opts_chunk$set(echo = TRUE)
 
 #Introduction
 
+Migration is one of the three main determinants of a country's population development. The other two - the birth and death rate - are generally believed to be easier to forecast [@Castles2014]. However, the literature has associated migration to factors that have classically been seen as drivers for migration between two countries such as [a] conditions in the sending country driving out inhabitants, including political troubles, persecution, conflict and other "push factors"", [b] conditions in the receiving country attracting migrants, such as higher wages, better know as "pull factors", and [c] factors which facilitate or authorize the migration process itself, such as the receiving country's immigration politics. 
+
+One driving factor increasingly put forward in recent years is the use of technology. According to @Hiller2004, computer mediated communication has created new possibilities for migrants to maintain strong linkages and ties with their home nations. Not only has new technology improved and heightened communication, it has also bridged cultural gap between countries as it allows people to easily gathering new information and knowledge about other cultures. This of course has made a large impact on people's perception on other cultures and their worldviews. Overall, technology has changed the landscape for communicating, and gathering knowledge and information. These revolutions that have transformed society are making travel and telecommunications cheaper and easier than ever. Moreover, Technology has enhanced the aspects of interaction as it is transforming the way individuals communicate. 
+
+This primary analysis will attempt to answer the following question using emperical methods: 
+
+Has the increase use of technologies such as internet and mobile phones affected the flow of emigration?
+
+
 #Methodology
+
+In order to examine the flows of migration, we intend to use data on trends in _International Migrant Stock_ produced by the United Nations. The data contains information from 232 countries and provides the number of migrants by destination and country of origin for four periods of time; 1990, 2000, 2010, and 2013. Moreover, to account for technology diffusion we will use _World Bank indicators_ on the number of Internet users and the number of cellular mobile subscriptions for each country. 
 
 #Data Collection
 
@@ -32,4 +43,3 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 
-blah blah blah blah blah blah blah blah blah blah blah blah 
