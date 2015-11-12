@@ -23,6 +23,7 @@ Migration is one of the three main determinants of a country's population develo
 
 One driving factor increasingly put forward in recent years is the use of technology. According to @Hiller2004, computer mediated communication has created new possibilities for migrants to maintain strong linkages and ties with their home nations. Not only has new technology improved and heightened communication, it has also bridged cultural gap between countries as it allows people to easily gathering new information and knowledge about other cultures. This of course has made a large impact on people's perception on other cultures and their worldviews. Overall, technology has changed the landscape for communicating, and gathering knowledge and information. These revolutions that have transformed society are making travel and telecommunications cheaper and easier than ever. Moreover, Technology has enhanced the aspects of interaction as it is transforming the way individuals communicate. 
 
+## The Research Question
 This primary analysis will attempt to answer the following question using emperical methods: 
 
 Has the increase use of technologies such as internet and mobile phones affected the flow of emigration?
@@ -36,6 +37,33 @@ The _International Migrant Stock Total_ indicates the number of people born in a
 Also, the dataset presents the estimates of : (1) international migrant stock at mid-year; (2) total population at mid-year (thousands); (3) international migrant stock as a percentage of the total population; (4) annual rate of change of migrant stock (percentage); and (5) estimated number of refugees. The estimates are based on official statistics on the foreign-born or the foreign population. 
 
 This analysis will focus on the estimates for the years 1990, 2000, 2010 and 2013. 
+
+Additionally, in order to conduct a more thourough analysis we will include a number of aggregate metadata collected from _The World Bank indicators_. There are many other determinants of migration, that is why this analysis chooses to include a wide variety of World Bank indicators. The choosen indicators are used to measure certain push factors. 
+
+To measure economic and demographic determinants this analysis includes the _fertility rate_ indicator. Indicators such as _poverty_ and _unemployment_ have been removed from the analysis, as there are many missing values in the dataset. 
+
+To account for political factors the this analysis used  _World Bank Governance indicators_, which includes _government effectiveness_, _regulatory quality_, _rule of law_, and _voice and accountability_. We have ommited _intentional homocides_, _political stability_, and _control of corruption_ indicators because there was a lack of obervations in the data set to conduct a complete analysis. 
+
+#Data Gathering 
+
+This section of the analysis will go into deep detail on our data gathering methods. 
+
+##Gather International Migration Stock, Total
+
+The original data was obtained through the United Nations Population Division, and downloaded through our repository as a Microsoft Excel file. The Excel datasheet had a matrix that described the population outflows and inflows for each country and for several time periods. This analysis focuses four time series; 1990. 2000, 2010 and 2013. 
+
+
+using a loop to import the file to RStudio using the command _*improt* 
+only extracted migration column from all countries as a vector 
+from each table matrix that represented the year of interest
+then, we transposed the data to make transform into a more usable format
+we declared it as a dataframe 
+and we renamed each coloumn using the command *callnames*
+This loop ends by assigning each year with a specific dataframe.
+using *cbind* we combined all extracted data from above, we combined all the years in one dataframe 
+in order to reshape the new dataframe, we used the command *Gather* to take multiple coloumns to collapse them into key value pairs, this creates two new variable called emmigration and year
+Finally, included the corresponding year names to the specific year variable.
+
 
 
 #Descriptive Statistics
