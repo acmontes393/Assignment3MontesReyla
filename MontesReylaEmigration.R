@@ -5,20 +5,17 @@
 # Clearing the workspace
 rm(list = ls())
 
-
 # Installing and loading packages
-install.packages('WDI')
-install.packages('tidyr')
-install.packages('rio')
-install.packages('countrycode')
-install.packages("RJOSONIO")  
-install.packages ("ggplot2")
-install.packages("rworldmap")
-install.packages("sp")
-install.packages("rworldmap")
-install.packages("joinCountryData2Map")
-install.packages("colorspace")
-install.packages("RColourBrewer")
+#install.packages('WDI')
+#install.packages('tidyr')
+#install.packages('rio')
+#install.packages('countrycode')
+#install.packages("RJOSONIO")  
+#install.packages ("ggplot2")
+#install.packages("rworldmap")
+#install.packages("sp")
+#install.packages("rworldmap")
+#install.packages("joinCountryData2Map")
 
 
 library("ggmap")
@@ -136,9 +133,8 @@ Merged$year <- as.numeric(Merged$year)
 Merged$emigration <- as.numeric(Merged$emigration)
 
 # Generating variables
-Merged$emigrationpercap = Merged$emigration/Merged$TotalPopulation*1000
-Merged$lnemigrationpercap =log(Merged$emigrationpercap)
 Merged$emigration2 = Merged$emigration/1000
+Merged$emigrationpercap = Merged$emigration/Merged$TotalPopulation*1000
 
 # Removing extra country name coloumn
 Merged <-subset.data.frame(Merged, select = -Country)
