@@ -2,10 +2,10 @@
 ########################## Collaborative Data Analysis Assigement 3 ####################
 ########################################################################################
 
-# Clearing the workspace
+# 0. Clearing the workspace
 rm(list = ls())
 
-# Installing and loading packages
+# 1. Installing and loading packages
 
 #install.packages('WDI')
 #install.packages('tidyr')
@@ -19,6 +19,7 @@ rm(list = ls())
 #install.packages("joinCountryData2Map")
 install.packages("plm")
 install.packages("Formula")
+install.packages("pglm")
 
 
 library("ggmap")
@@ -34,7 +35,7 @@ library("sp")
 library('rworldmap')
 library('Formula')
 library('plm')
-
+library('pglm')
 
 #2. Setting directory
 setwd('/Users/AnaCe/Desktop/Assignment3MontesReyla')
@@ -44,7 +45,7 @@ setwd('/Users/AnaCe/Desktop/Assignment3MontesReyla')
 ################################# LOADING AND CLEANING DATA ############################
 ########################################################################################
 
-# 1.Loading Migration UN Data
+# 4. Loading Migration UN Data
 
 ### loop that loads into R each table in the file and extracts the relevant information for this assigment
 
@@ -71,25 +72,25 @@ ls()
 rm(list = c("emigration","emigration11", "emigration2", "emigration5", "emigration8", 
             "i", "tables"))
 
-# 2.Loading data from the Worldbank database
+# 5. Loading data from the Worldbank database
 wbdata <- c ("IT.CEL.SETS.P2", "IT.NET.USER.P2", "NY.GDP.PCAP.PP.CD","SP.POP.TOTL","SI.POV.DDAY","SL.UEM.TOTL.ZS","VC.IHR.PSRC.P5"
 ,"CC.EST","GE.EST","PV.EST","RQ.EST","RL.EST","VA.EST","SP.DYN.TFRT.IN")
 
 WDI_indi<- WDI(country = "all", indicator = wbdata,
                    start = 1990, end = 2013, extra = FALSE, cache = NULL)
 
-# 3.Creating an unique identifier for both data frames
+# 6. Creating an unique identifier for both data frames
 emigrationtotal$iso2c <- countrycode (emigrationtotal$Country, origin = 'country.name', 
                                       destination = 'iso2c', warn = TRUE)
 
 WDI_indi$iso2c <- countrycode (WDI_indi$country, origin = 'country.name', 
                                destination = 'iso2c', warn = TRUE)
 
-# 4. Merging "WDI Indicators " and "UN Migration stocks"
+# 7. Merging "WDI Indicators " and "UN Migration stocks"
 Merged <- merge(emigrationtotal, WDI_indi, by = c('iso2c','year'))
 summary(Merged)
 
-# 5. Renaming all the variables with simple names
+# 8. Cleaning the data
 Merged <- plyr::rename(Merged, c("IT.CEL.SETS.P2" = "CellphoneUsers"))
 Merged <- plyr::rename(Merged, c("IT.NET.USER.P2" = "InternetUsers"))
 Merged <- plyr::rename(Merged, c("NY.GDP.PCAP.PP.CD" = "GDPPerCapita"))
@@ -105,7 +106,7 @@ Merged <- plyr::rename(Merged, c("RL.EST" = "RuleOfLaw"))
 Merged <- plyr::rename(Merged, c("VA.EST" = " VoiceAndAccountability"))
 Merged <- plyr::rename(Merged, c("SP.DYN.TFRT.IN" = "FertilityRate"))
 
-# 6. Counting NAs in the Independent Variables
+# Counting missing information in the Independent Variables
 
 variables <-c("CellphoneUsers", "InternetUsers", "GDPPerCapita", "TotalPopulation", "Poverty",
               "UnemploymentRate", "IntentionalHomocides", "Corruption", "FertilityRate", 
@@ -130,19 +131,31 @@ NAs$FertilityRate<- sum(is.na(Merged$FertilityRate))/nrow(Merged)
 # Also, we are dropping independent variables with more than 15% of the total observations NA 
 Merged <- Merged[, !(colnames(Merged)) %in% c("Poverty", "IntentionalHomocides","PoliticalStability","Corruption", "UnemploymentRate")]
 
+
+# Dropping missing values
+Merged <- Merged[!is.na(Merged$InternetUsers),]
+Merged <- Merged[!is.na(Merged$CellphoneUsers),]
+Merged <- Merged[!is.na(Merged$GDPPerCapita),]
+Merged <- Merged[!is.na(Merged$FertilityRate),]
+
+
 # Check Variables structure
 str(Merged)
+summary(Merged)
+table (Merged$year)
 
 # Code variables as numeric
 Merged$year <- as.numeric(Merged$year)
 Merged$emigration <- as.numeric(Merged$emigration)
 
-# Generating variables
+# Removing extra country name coloumn
+Merged <-subset.data.frame(Merged, select = -Country)
+
+
+# 9. Generating variables
 Merged$emigration2 = Merged$emigration/1000
 Merged$emigrationpercap = Merged$emigration/Merged$TotalPopulation
 
-# Removing extra country name coloumn
-Merged <-subset.data.frame(Merged, select = -Country)
 
 # sub dataframes by year
 merged90 <-subset(Merged, year==1990)
@@ -150,6 +163,9 @@ merged00 <-subset(Merged, year==2000)
 merged10 <-subset(Merged, year==2010)
 merged13 <-subset(Merged, year==2013)
 
+
+# Creating a .csv file with the final version of the data
+write.csv(Merged, file="MontesandReyla")
 ###############################################################################################
 ############################### DESCRIPTIVE STATISTICS ##############################
 ####################################################################################
@@ -237,11 +253,10 @@ sd_error <- function(x) {
   sd(x)/sqrt(length(x))
 }
 
-sd_error(Loblolly$height)
-sd_error(Loblolly$age)
+sd_error(Merged$)
 
 # Joint Distribution
-plot(emigrationpercap ~ InternetUsers, data = merged13, 
+plot(emigration2 ~ InternetUsers, data = merged13, 
      xlab = "E", las = 1,
      ylab = "C",
      main = "Emigration data and fitted curve")
@@ -251,7 +266,7 @@ plot(emigrationpercap ~ GDPPerCapita, data = merged13,
      ylab = "C",
      main = "Emigration data and fitted curve")
 
-plot(emigrationpercap ~ GDPPerCapita, data = merged13, 
+plot(emigrationper2 ~ GDPPerCapita, data = merged13, 
      xlab = "E", las = 1,
      ylab = "C",
      main = "Emigration data and fitted curve")
@@ -261,26 +276,22 @@ plot(emigrationpercap ~ GDPPerCapita, data = merged13,
 # Correlation
 cor.test(Merged$emigrationpercap, Merged$InternetUsers)
 cor.test(Merged$emigrationpercap, Merged$CellphoneUsers)
-cor.test(Merged$emigrationpercap, Merged$GovernmentEffectivness, na.rm = TRUE)
-
+cor.test(Merged$InternetUsers, Merged$CellphoneUsers, na.rm = TRUE)
 
 
 cor.test(merged90$emigrationpercap, merged90$InternetUsers)
 cor.test(merged10$emigrationpercap, merged10$InternetUsers)
 cor.test(merged13$emigrationpercap, merged13$InternetUsers)
 
-
-
-#Summarise with loess
-ggplot2::ggplot(merged13, aes(emigrationpercap, InternetUsers)) + geom_point() + geom_smooth() + theme_bw()
-
 ####################################################################################
 #################################### PANEL MODEL ###################################
 ####################################################################################
 
+M1 <- glm(emigration ~ CellphoneUsers + TotalPopulation + GDPPerCapita + year + RegulatoryQuality + RuleOfLaw + FertilityRate, data = Merged, family = 'poisson')
+summary(M1)
 
-
+M2 <- glm(emigration ~ InternetUsers + TotalPopulation, data = Merged, family = 'poisson')
+summary(M2)
 
 ####################################################################################
-
 
