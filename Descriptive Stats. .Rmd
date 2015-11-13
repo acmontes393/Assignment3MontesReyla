@@ -104,7 +104,7 @@ To import the indicators we used **install.packages ('WDI)**, afterwards we impo
 
 
 ## Final Data Gathering
-
+how
 After importing and merging all the data into a singular data frame, a lot of missing values (NAs) were observed. To properly clean the data and omit the NAs the **is.na** command was used. However, in this process a total of ten countries were committed from the data frame, due to the lack of relevant information in our control variables. 
 
 #Descriptive Statistics
@@ -114,6 +114,13 @@ After importing and merging all the data into a singular data frame, a lot of mi
 Our dependent variable is the total migrant stock at mid-year by country of origin, which we retrived from the United Nations Population division. It collected census data from 232 countries in 1990, 2000, 2010 and 2013. 
 
 ### Patterns of Emmigration
+
+\pretitle{%
+  \begin{center}
+  \LARGE
+  \includegraphics[width=4cm,height=6cm]{/Users/ayrarowenareyla/Desktop/The Hertie School of Governance/Collaborative Social Sciences/Assignment3MontesReyla/Assignment3MontesReyla}\\[\bigskipamount]
+}
+\posttitle{\end{center}}
 
 ```{r merged90, tidy=TRUE, warning=FALSE, comment="Note:", error=FALSE, echo=FALSE, cache=FALSE, results="hold", message=FALSE, eval=FALSE}
 # Graphs
@@ -125,9 +132,6 @@ Emi90 <- mapCountryData(sPDF, nameColumnToPlot='emigrationpercap',
                         mapTitle= 'Fig 1. Number of emigrants per capita 1990', 
                         colourPalette = c("darkorange", "coral2","gold","aquamarine1", "cyan3", "blue","magenta"), 
                         borderCol='black', missingCountryCol="beige")
-
-dev.copy(png,'Mapa1.png')
-dev.off()
 
 
 # 2000
@@ -157,7 +161,6 @@ mapCountryData(sPDFIV, nameColumnToPlot='emigrationpercap', mapTitle= 'Fig 4. Nu
 
 ```
 
-image: ![](/Users/ayrarowenareyla/Desktop/The Hertie School of Governance/Collaborative Social Sciences/Assignment3MontesReyla/Assignment3MontesReyla/Mapa1)
 
 
 ## Independent Variables
