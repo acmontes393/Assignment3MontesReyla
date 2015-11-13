@@ -187,6 +187,36 @@ mapCountryData(sPDFIV, nameColumnToPlot='emigrationpercap', mapTitle= 'Figure 6.
 #Independent Variables
 
 This analysis makes use of many variables, to control for determinates that effect the dependent variable.
+Below is the calculated summary statistics for the independent variables.
+
+###GDP Per Capita
+```{r, echo=FALSE, tidy=TRUE, comment=NA}
+summary(Merged$GDPPerCapita, na.rm = TRUE)
+```
+###Total Population
+```{r, echo=FALSE, tidy=TRUE, comment=NA}
+summary(Merged$TotalPopulation, na.rm = TRUE)
+```
+###Fertility Rate
+```{r, echo=FALSE, tidy=TRUE, comment=NA}
+summary(Merged$FertilityRate, na.rm = TRUE)
+```
+
+
+###Cellphone Users
+```{r, echo=FALSE, tidy=TRUE, comment=NA}
+summary(Merged$CellphoneUsers, na.rm = TRUE)
+```
+###Internet Users
+```{r, echo=FALSE, tidy=TRUE, comment=NA}
+summary(Merged$InternetUsers, na.rm = TRUE)
+```
+###Correlation between independent variables
+```{r, echo=FALSE, tidy=TRUE, comment=NA}
+cor.test(Merged$InternetUsers, Merged$CellphoneUsers, na.rm = TRUE)
+```
+Since a high correlation between internet users and cellphone users can be observed from the correlation test above, this analysis used the variables seperately. 
+
 
 #Results
 
