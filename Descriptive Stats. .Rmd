@@ -1,8 +1,11 @@
 ---
-title: "A meta-analysis of the effects of internet and mobile usage on migration"
+title: "An analysis of the effects of internet and mobile usage on migration"
 author: "Ayra Rowena Reyla and Ana Cecilia Montes"
 date: "13 November 2015"
-output: pdf_document
+output: 
+      pdf_document:
+       includes:
+          in_header: header.tex
       
 
 
@@ -11,7 +14,6 @@ theme: united
 toc: yes
 toc_depth: 3
 ---
-\newpage
 
 ```{r setup, include=FALSE, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
@@ -114,15 +116,10 @@ After importing and merging all the data into a singular data frame, a lot of mi
 Our dependent variable is the total migrant stock at mid-year by country of origin, which we retrived from the United Nations Population division. It collected census data from 232 countries in 1990, 2000, 2010 and 2013. 
 
 ### Patterns of Emmigration
-
-\pretitle{%
-  \begin{center}
-  \LARGE
-  \includegraphics[width=4cm,height=6cm]{/Users/ayrarowenareyla/Desktop/The Hertie School of Governance/Collaborative Social Sciences/Assignment3MontesReyla/Assignment3MontesReyla}\\[\bigskipamount]
-}
-\posttitle{\end{center}}
-
-```{r merged90, tidy=TRUE, warning=FALSE, comment="Note:", error=FALSE, echo=FALSE, cache=FALSE, results="hold", message=FALSE, eval=FALSE}
+   
+\blandscape    
+<center>
+```{r merged90, tidy=TRUE, warning=FALSE, comment="Note:", error=FALSE, echo=FALSE, cache=FALSE, results="hold"}
 # Graphs
 # 1990
 sPDF <- joinCountryData2Map( merged90
@@ -158,23 +155,12 @@ mapCountryData(sPDFIV, nameColumnToPlot='emigrationpercap', mapTitle= 'Fig 4. Nu
                colourPalette = c("darkorange", "coral2","gold","aquamarine1", "cyan3", "blue","magenta"),
                borderCol='black', missingCountryCol="beige")
 
-
 ```
-
-
+\elandscape 
 
 ## Independent Variables
 
+
+
 #Inferential Statistics
-
-
-
-
-
-
-
-
-
-
-
 
