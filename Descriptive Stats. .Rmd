@@ -3,6 +3,7 @@ title: "A meta-analysis of the effects of internet and mobile usage on migration
 author: "Ayra Rowena Reyla and Ana Cecilia Montes"
 date: "13 November 2015"
 output: pdf_document
+      
 
 
 highlight: zenburn
@@ -10,8 +11,6 @@ theme: united
 toc: yes
 toc_depth: 3
 ---
-
-
 \newpage
 
 ```{r setup, include=FALSE, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
@@ -116,22 +115,26 @@ Our dependent variable is the total migrant stock at mid-year by country of orig
 
 ### Patterns of Emmigration
 
-```{r merged90, tidy=TRUE, warning=FALSE, comment="Note:", cache=FALSE, eval=TRUE, results="axis", message=FALSE}
+```{r merged90, tidy=TRUE, warning=FALSE, comment="Note:", error=FALSE, echo=FALSE, cache=FALSE, results="hold", message=FALSE, eval=FALSE}
 # Graphs
 # 1990
 sPDF <- joinCountryData2Map( merged90
                              ,joinCode = "ISO2"
                              ,nameJoinColumn = "iso2c")
 Emi90 <- mapCountryData(sPDF, nameColumnToPlot='emigrationpercap', 
-                        mapTitle= 'Figure 1. Number of emigrants per capita 1990', 
+                        mapTitle= 'Fig 1. Number of emigrants per capita 1990', 
                         colourPalette = c("darkorange", "coral2","gold","aquamarine1", "cyan3", "blue","magenta"), 
                         borderCol='black', missingCountryCol="beige")
+
+dev.copy(png,'Mapa1.png')
+dev.off()
+
 
 # 2000
 sPDFII <- joinCountryData2Map( merged00
                              ,joinCode = "ISO2"
                              ,nameJoinColumn = "iso2c")
-mapCountryData(sPDFII, nameColumnToPlot='emigrationpercap', mapTitle= 'Figure 2. Number of emigrants per capita 2000',
+mapCountryData(sPDFII, nameColumnToPlot='emigrationpercap', mapTitle= 'Fig 2. Number of emigrants per capita 2000',
                colourPalette = c("darkorange", "coral2","gold","aquamarine1", "cyan3", "blue","magenta"),
                borderCol='black', missingCountryCol="beige")
 
@@ -139,7 +142,7 @@ mapCountryData(sPDFII, nameColumnToPlot='emigrationpercap', mapTitle= 'Figure 2.
 sPDFIII <- joinCountryData2Map( merged10
                                 ,joinCode = "ISO2"
                                 ,nameJoinColumn = "iso2c")
-mapCountryData(sPDFIII, nameColumnToPlot='emigrationpercap', mapTitle= 'Figure 3. Number of emigrants per capita 2010',
+mapCountryData(sPDFIII, nameColumnToPlot='emigrationpercap', mapTitle= 'Fig 3. Number of emigrants per capita 2010',
                colourPalette = c("darkorange", "coral2","gold","aquamarine1", "cyan3", "blue","magenta"),
                borderCol='black', missingCountryCol="beige")
 
@@ -147,21 +150,17 @@ mapCountryData(sPDFIII, nameColumnToPlot='emigrationpercap', mapTitle= 'Figure 3
 sPDFIV <- joinCountryData2Map( merged13
                                ,joinCode = "ISO2"
                                ,nameJoinColumn = "iso2c")
-mapCountryData(sPDFIV, nameColumnToPlot='emigrationpercap', mapTitle= 'Figure 4. Number of emigrants per capita 2013',
+mapCountryData(sPDFIV, nameColumnToPlot='emigrationpercap', mapTitle= 'Fig 4. Number of emigrants per capita 2013',
                colourPalette = c("darkorange", "coral2","gold","aquamarine1", "cyan3", "blue","magenta"),
                borderCol='black', missingCountryCol="beige")
 
+
 ```
 
-
-
-
-
+image: ![](/Users/ayrarowenareyla/Desktop/The Hertie School of Governance/Collaborative Social Sciences/Assignment3MontesReyla/Assignment3MontesReyla/Mapa1)
 
 
 ## Independent Variables
-
-
 
 #Inferential Statistics
 
