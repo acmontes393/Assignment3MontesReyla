@@ -114,9 +114,9 @@ After importing and merging all the data into a singular data frame, a lot of mi
 
 Our dependent variable is the total migrant stock at mid-year by country of origin, which we retrived from the United Nations Population division. It collected census data from 232 countries in 1990, 2000, 2010 and 2013. 
 
-## Patterns of Emmigration
+### Patterns of Emmigration
 
-```{r merged90, comment = NA, eval=TRUE, results="hide", echo=FALSE, message = FALSE, warnings = FALSE}
+```{r merged90, tidy=TRUE, warning=FALSE, comment="Note:", cache=FALSE, eval=TRUE, results="axis", message=FALSE}
 # Graphs
 # 1990
 sPDF <- joinCountryData2Map( merged90
@@ -125,7 +125,7 @@ sPDF <- joinCountryData2Map( merged90
 Emi90 <- mapCountryData(sPDF, nameColumnToPlot='emigrationpercap', 
                         mapTitle= 'Figure 1. Number of emigrants per capita 1990', 
                         colourPalette = c("darkorange", "coral2","gold","aquamarine1", "cyan3", "blue","magenta"), 
-                        borderCol='black')
+                        borderCol='black', missingCountryCol="beige")
 
 # 2000
 sPDFII <- joinCountryData2Map( merged00
@@ -133,9 +133,7 @@ sPDFII <- joinCountryData2Map( merged00
                              ,nameJoinColumn = "iso2c")
 mapCountryData(sPDFII, nameColumnToPlot='emigrationpercap', mapTitle= 'Figure 2. Number of emigrants per capita 2000',
                colourPalette = c("darkorange", "coral2","gold","aquamarine1", "cyan3", "blue","magenta"),
-               borderCol='black')
-
-\newpage
+               borderCol='black', missingCountryCol="beige")
 
 # 2010
 sPDFIII <- joinCountryData2Map( merged10
@@ -143,14 +141,16 @@ sPDFIII <- joinCountryData2Map( merged10
                                 ,nameJoinColumn = "iso2c")
 mapCountryData(sPDFIII, nameColumnToPlot='emigrationpercap', mapTitle= 'Figure 3. Number of emigrants per capita 2010',
                colourPalette = c("darkorange", "coral2","gold","aquamarine1", "cyan3", "blue","magenta"),
-               borderCol='black')
+               borderCol='black', missingCountryCol="beige")
+
 # 2013
 sPDFIV <- joinCountryData2Map( merged13
                                ,joinCode = "ISO2"
                                ,nameJoinColumn = "iso2c")
 mapCountryData(sPDFIV, nameColumnToPlot='emigrationpercap', mapTitle= 'Figure 4. Number of emigrants per capita 2013',
                colourPalette = c("darkorange", "coral2","gold","aquamarine1", "cyan3", "blue","magenta"),
-               borderCol='black')
+               borderCol='black', missingCountryCol="beige")
+
 ```
 
 
