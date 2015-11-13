@@ -87,7 +87,6 @@ Additionally, in order to conduct a more thorough analysis we will include a num
 
 To measure economic and demographic determinants this analysis includes the _fertility rate_ indicator. Indicators such as _poverty_ and _unemployment_ have been removed from the analysis, as there are many missing values in the data set. 
 
-To account for political factors the this analysis used  _World Bank Governance indicators_, which includes _government effectiveness_, _regulatory quality_, _rule of law_, and _voice and accountability_. We have omitted _intentional homocides_, _political stability_, and _control of corruption_ indicators because there was a lack of observations in the data set to conduct a complete analysis. 
 
 
 #Emperical Methods
