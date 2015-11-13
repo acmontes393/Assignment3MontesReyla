@@ -112,9 +112,9 @@ After importing and merging all the data into a singular data frame, a lot of mi
 
 ## Dependent Variables
 
-Our dependent variable is the total migrant stock at mid-year by country of origin, which we retrived from the United Nations Population division. It collected census data from 232 countries in 1990, 2000, 2010 and 2013. 
+Our dependent variable is the total migrant stock at mid-year by country of origin, which we retrieved from the United Nations Population division. It collected census data from 232 countries in 1990, 2000, 2010 and 2013. 
 
-The Figure 1 below shows the distribution of the dependent variable. Since the statistics accounts for the number of emigrants, it can be considered as count data. It is also vey rightly skewed, because there is a large amount countries that both have low emmigration and low population. 
+The Figure 1 below shows the distribution of the dependent variable. Since the statistics accounts for the number of emigrants, it can be considered as count data. It is also very rightly skewed, because there is a large amount countries that both have low emigration and low population. 
 
 
 ```{r, echo=FALSE, warning=FALSE, comment=NA, results="hold"}
@@ -123,9 +123,12 @@ hist(Merged$emigration2, xlab = "Thousands of emigrants", main = "Figure 1. Hist
 summary(Merged$emigration2, na.rm = TRUE)
 ```
 
-Figure 2 expresses emigration in per capita terms in order to account for population differences between countries. The shape of the destribution is not as not made a visual change, which means that emigration is quite low in a large number of countries. 
 
-Among all the years, the country with the largest emigration per capita is the West Bank snd Gaza. One can infer that the conflict in this region over time has affected the population movements drastically. 
+
+
+Figure 2 expresses emigration in per capita terms in order to account for population differences between countries. The shape of the distribution is not as not made a visual change, which means that emigration is quite low in a large number of countries. 
+
+Among all the years, the country with the largest emigration per capita is the West Bank and Gaza. One can infer that the conflict in this region over time has affected the population movements drastically. The country with the lowest emigration per capita is Western Sahara. Even though there is a strong conflict in the region, free mobility in and out of the country is heavily guarded and limited by a 2,700 kilometer sand wall, also known as the Moroccan Wall. This can account for the lack of emigration throughout the region. 
 
 
 ```{r, echo=FALSE, warning=FALSE, comment=NA, results="hold"}
@@ -135,13 +138,13 @@ summary(Merged$emigrationpercap, na.rm = TRUE)
 ``` 
 
 ### Patterns of Emmigration
-The following figures illustrate the eveolution of the per capita emmigration stock totals for each country in the years 1990, 2000, 2010 and 2013. 
+The following figures illustrate the evolution of the per capita emigration stock totals for each country in the years 1990, 2000, 2010 and 2013. 
 
-Observing the figures indicates the important population movements, particularly in Africa. For example, between the years of 1990-2000, Mozambique  and Burina Faso has reduced the number of people exiting the country. Also, Chad has experienced similar paterns, but not the the extent to which the previous examples faced. When comparing 2010 and 2013, there is not a visually observable difference. This can possibly be attributed to the stabalization of migration patterns. 
+Observing the figures indicates the important population movements, particularly in Africa. For example, between the years of 1990-2000, Mozambique  and Burkina Faso has reduced the number of people exiting the country. Also, Chad has experienced similar pasterns, but not the the extent to which the previous examples faced. When comparing 2010 and 2013, there is not a visually observable difference. This can possibly be attributed to the stabilization of migration patterns. 
 
-While Africa has experienced a decrease in emigration, Latin America has the opposite pattern. For example, countries such as Mexico, Colombia, Educdor, Peru, Bolivia, and Guatemala have experience a large increase in total emigration during the last decade. 
+While Africa has experienced a decrease in emigration, Latin America has the opposite pattern. For example, countries such as Mexico, Colombia, Educator, Peru, Bolivia, and Guatemala have experience a large increase in total emigration during the last decade. 
 
-In Europe, the situation is quite mixed since many factors, such as the creation of European Union (EU) and the enlargmenet of EU over the years could have played a large role the heterogenity of the migration paterns in the past decade. There is migration movement, but there is no overall patern of movements within the EU region.
+In Europe, the situation is quite mixed since many factors, such as the creation of European Union (EU) and the enlargement of EU over the years could have played a large role the heterogeneity of the migration patterns in the past decade. There is migration movement, but there is no overall pattern of movements within the EU region.
 
 
 <center>
@@ -190,13 +193,13 @@ mapCountryData(sPDFIV, nameColumnToPlot='emigrationpercap', mapTitle= 'Figure 6.
 
 #Results
 
-Panel regression using within estimators and seperate random effect estimators are used when analyzing the research question at hand. 
+Panel regression using within estimators and separate random effect estimators are used when analyzing the research question at hand. 
 
-_Table 1_ illustrates the regression results of a *panel regression*. The results show that cellphone usage is significant to explain the change in immigration inside a country. Additionally, the within estimations indicates that cellphone users do not explain the imigration pattern accross countries. 
+_Table 1_ illustrates the regression results of a *panel regression*. The results show that cellphone usage is significant to explain the change in immigration inside a country. Additionally, the within estimations indicates that cellphone users do not explain the migration pattern across countries. 
 
-Futhermore, the comparison between the same countries within the same year indicate that the more cellphone users in a country, the more migration occurs. Coincidently, when compaing between countries, there is no effect on the cellphone users. 
+Furthermore, the comparison between the same countries within the same year indicate that the more cellphone users in a country, the more migration occurs. Coincidentally, when comparing between countries, there is no effect on the cellphone users. 
 
-It's the effect within the country and the year that is significant. The more technology is introduced in the country, the more it will incentiize or "push" immigration in the country. This suggests that the differences accross the countries are not a relevant factor to explain immgration accross countries. 
+It's the effect within the country and the year that is significant. The more technology is introduced in the country, the more it will incentive or "push" immigration in the country. This suggests that the differences across the countries are not a relevant factor to explain immigration across countries. 
 
 
 #Limitations and Further Research
