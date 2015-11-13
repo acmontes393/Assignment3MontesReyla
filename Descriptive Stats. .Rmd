@@ -108,9 +108,9 @@ We gatherd the data using the **import** command, and afterwards we used a loop 
 To import the indicators we used **install.packages ('WDI)**, afterwards we imported it into our library using **library("WDI")**. Then, we specified which indicators we wanted to include in our analysis by using the specific codes available on the metadata set of the World Bank. We then properly renamed the variables using the **rename** command. Once the data was loaded, we used **Merged <- merge(emigrationtotal, WDI_indi, by = c('iso2c','year'))** to combine the WDI indicators with the International Migration Stock. 
 
 
-## Final Data Gathering
-
 After importing and merging all the data into a singular data frame, a lot of missing values (NAs) we noticed that the dataframe had a lot of missing values (NAs). To properly clean the data and omit the NAs we used the **is.na**.However, in this process a total of ten countries were committed from the data frame, due to the lack of relevant information in our control variables. 
+
+
 
 #Descriptive Statistics
 
