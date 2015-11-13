@@ -158,9 +158,21 @@ mapCountryData(sPDFIV, nameColumnToPlot='emigrationpercap', mapTitle= 'Fig 4. Nu
 ```
 \elandscape 
 
+
 ## Independent Variables
 
 
 
-#Inferential Statistics
+#Results
+
+Panel regression using within estimators and seperate random effect estimators are used when analyzing the research question at hand. 
+
+Table 1 illustrates the regression results of a *panel regression*. The results show that cellphone usage is significant to explain the changse in immigration inside a country. Additionally, the within estimations indicates that cellphone users do not explain the imigration pattern accross countries. 
+
+when we compare in the smame country within years, the more cellphone users the more migration will be.
+comparing between country, there is no effect on cellphone users. 
+
+Its the effect within the country and the year. More technology is indroduced in the country, the more it will incentiize or "push" immigration in the country. 
+
+While the differences accross the countries are not a relevant factor to explain immgration accross countries. 
 
