@@ -186,7 +186,7 @@ mapCountryData(sPDFIV, nameColumnToPlot='emigrationpercap', mapTitle= 'Figure 6.
 
 #Independent Variables
 
-
+This analysis makes use of many variables, to control for determinates that effect the dependent variable.
 
 #Results
 
