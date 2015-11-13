@@ -13,8 +13,53 @@ toc_depth: 3
 
 
 \newpage
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+
+```{r setup, include=FALSE, echo=FALSE, warning=FALSE, error=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+#install.packages('WDI')
+#install.packages('tidyr')
+#install.packages('rio')
+#install.packages('countrycode')
+#install.packages("RJOSONIO")  
+#install.packages ("ggplot2")
+#install.packages("rworldmap")
+#install.packages("sp")
+#install.packages("joinCountryData2Map")
+#install.packages("plm")
+#install.packages("Formula")
+#install.packages("pglm")
+
+# Loading packages
+library("maptools")
+library("countrycode")
+library("RJSONIO")
+library("WDI")
+library("tidyr")
+library("rio")
+library("ggplot2")
+library("rworldmap")
+library("sp")
+library('Formula')
+library('plm')
+library('pglm')
+
+# Setting directory
+#setwd('/Users/AnaCe/Desktop/Assignment3MontesReyla')
+setwd('/Users/ayrarowenareyla/Desktop/The Hertie School  Governance/Collaborative Social Sciences/Assignment3MontesReyla/Assignment3MontesReyla')
+
+#loading data set
+Merged <- read.csv(file="MontesandReyla")
+
+#Set data as panel data
+Merged <- plm.data(Merged, index=c("iso2c", "year"))
+
+# sub dataframes by year
+merged90 <-subset(Merged, year==1990)
+merged00 <-subset(Merged, year==2000)
+merged10 <-subset(Merged, year==2010)
+merged13 <-subset(Merged, year==2013)
+
 ```
 
 #Introduction
@@ -67,6 +112,11 @@ After importing and merging all the data into a singular data frame, a lot of mi
 
 ## Dependent Variables
 
+Our dependent variable is the total migrant stock at mid-year by country of origin, which we retrived from the United Nations Population division. It collected census data from 232 countries in 1990, 2000, 2010 and 2013. 
+
+## Patterns of Emmigration
+
+
 ## Independent Variables
 
 
@@ -79,6 +129,11 @@ After importing and merging all the data into a singular data frame, a lot of mi
 
 
 #Figures
+
+
+
+
+
 
 
 
